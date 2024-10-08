@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js';
 import { Reel } from './Reel';
+import { BetSelector } from './BetSelector';
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Get the screen width dynamically and divide for the number of reels
   const reelCount = 5; // Number of reels
   const rowCount = 3; // Number of rows (3 rows visible at a time)
   const appWidth = window.innerWidth;
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const reelWidth = appWidth / reelCount; // Each reel takes a portion of the screen width
   const spinDuration = 5; // Duration of the spin in seconds
   const staggerDelay = 200; // Delay between reels (in milliseconds)
+  const betAmounts = [1, 5, 10, 20, 50]; // Array of bet amounts
 
   // Create the PixiJS Application
   const app = new PIXI.Application({
@@ -26,6 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Game container not found!');
     return;
   }
+
+  // Initialize the BetSelector
+  const betSelector = new BetSelector(betAmounts); // Create BetSelector instance
 
   // List of asset URLs
   const assetPaths = [
@@ -97,7 +101,6 @@ function createSpinButton(reels: Reel[], staggerDelay: number) {
   const spinButton = document.createElement('button');
   spinButton.innerText = 'Spin';
   document.body.appendChild(spinButton);
-
   spinButton.addEventListener('click', () => {
     // Start each reel with a staggered delay
     reels.forEach((reel, index) => {
